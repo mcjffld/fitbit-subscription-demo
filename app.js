@@ -59,6 +59,7 @@ passport.use(new FitbitStrategy({
 	},
 	function(token, tokenSecret, profile, done) {
 		// Store the user credentials
+		console.log('in passport use function ...');
 		User.update(
 			{ encodedId: profile.id },
 			{
@@ -73,6 +74,7 @@ passport.use(new FitbitStrategy({
 			}
 		);
 
+		console.log('connect to fitbit ...');
 		// Create a subscription.
 		var oauth = new OAuth.OAuth(
 			'https://api.fitbit.com/oauth/request_token',
@@ -83,7 +85,7 @@ passport.use(new FitbitStrategy({
 			null,
 			'HMAC-SHA1'
 		);
-
+		console.log('post to fitbit ...');
 		oauth.post(
 			'https://api.fitbit.com/1/user/-/apiSubscriptions/' + profile.id + '-all.json',
 			token,
@@ -96,6 +98,7 @@ passport.use(new FitbitStrategy({
 				return done(null, profile);
 			}
 		);
+		conole.log('all done');
 	}
 ));
 
@@ -104,6 +107,7 @@ app.get('/auth/fitbit', passport.authenticate('fitbit'));
 app.get('/auth/fitbit/callback', 
 	passport.authenticate('fitbit', { failureRedirect: '/?error=auth_failed' }),
 	function(req, res) {
+		conole.log('fitbit called back ... get the phone data');
 		// Successful authentication, redirect home.
 		res.redirect('/phone');
 	}
