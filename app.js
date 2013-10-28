@@ -102,7 +102,7 @@ passport.use(new FitbitStrategy({
 	}
 ));
 
-app.get('/auth/fitbit', passport.authenticate('fitbit'));
+//app.get('/auth/fitbit', passport.authenticate('fitbit'));
 
 app.get('/auth/fitbit/callback', 
 	passport.authenticate('fitbit', { failureRedirect: '/?error=auth_failed' }),
